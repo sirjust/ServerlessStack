@@ -52,3 +52,15 @@ functions:
         method: POST
         cors: true
         authorizer: aws_iam
+
+  get:
+  # defines and HTTP API endpoint that calls the main function in get.js
+  # path: url path is /notes/{id}
+  # method: GET request
+    handler: get.main
+    events:
+      - http:
+        path: notes/{id}
+        method: GetItem
+        cors: true
+        authorizer: aws_iam
