@@ -23,6 +23,7 @@ provider:
   # these environment variables are made available to our functions under process.env
   environment:
     tableName: notes
+    stripeSecretKey: ${env:STRIPE_SECRET_KEY}
 
   # 'iamRoleStatements' defines permission policy for the lambda function
   # Here lambda functions are granted with permissions to access DynamoDB
@@ -98,5 +99,17 @@ functions:
       - http:
         path: notes/{id}
         method: delete
+        cors: true
+        authorizer: aws_iam
+  
+  billing:
+  # define an HTTP API endpoint that calls the main function in billing.js
+  # path: the url path is /billing
+  # method: POST request
+    handler: billing.main
+    events:
+      - http:
+        path: billing
+        method: post
         cors: true
         authorizer: aws_iam
